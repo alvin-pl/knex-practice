@@ -2,26 +2,16 @@ require('dotenv').config()
 const knex = require('knex')
 
 const knexInstance = knex({
-    client: 'pg',
-    connection: process.env.DB_URL
+    client: 'pg', //pg is the Postgres driver
+    connection: process.env.DB_URL,
 })
+
 console.log('knex and driver installed correctly');
 
-knexInstance.from('amazong_products').select('*');
 knexInstance.from('amazong_products').select('*')
-
-    .then(result => {
-      console.log(result)
-    })
-
-knexInstance
-    .select('product_id', 'name', 'price', 'category')
-    .from('amazong_products')
-    .where({ name: 'Point of view gun' })
-    .first()
-    .then(result => {
-        console.log(result)
-    })
+.then(result => {
+     console.log(result)
+   })
 
 const qry = knexInstance
     .select('product_id', 'name', 'price', 'category')
@@ -29,9 +19,9 @@ const qry = knexInstance
     .where({ name: 'Point of view gun' })
     .first()
     .toQuery()
-// .then(result => {
-//   console.log(result)
-// })
+   // .then(result => {
+    //    console.log(result)
+   // })
 
 console.log(qry)
 
@@ -45,19 +35,7 @@ knexInstance
         console.log(result)
     })
 
-function searchByProduceName(searchTerm) {
-    knexInstance
-        .select('product_id', 'name', 'price', 'category')
-        .from('amazong_products')
-        .where('name', 'ILIKE', `%${searchTerm}%`)
-        .then(result => {
-            console.log(result)
-        })
-}
-
 searchByProduceName('holo')
-
-// searchByProduceName('holo')
 
 function paginateProducts(page) {
     const productsPerPage = 10
@@ -74,9 +52,6 @@ function paginateProducts(page) {
 
 paginateProducts(2)
 
-
-// paginateProducts(2)
-
 function getProductsWithImages() {
     knexInstance
         .select('product_id', 'name', 'price', 'category', 'image')
@@ -88,8 +63,6 @@ function getProductsWithImages() {
 }
 
 getProductsWithImages()
-
-// getProductsWithImages()
 
 function mostPopularVideosForDays(days) {
     knexInstance
